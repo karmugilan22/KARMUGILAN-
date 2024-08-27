@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definition of a binary tree node
+typedef struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+} Node;
+
+// Function to create a new node
+Node* newNode(int data) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+// Function to calculate the depth of a specific node
+int depth(Node* root, int key, int level) {
+    if (root == NULL) return -1;
+    if (root->data == key) return level;
+    int leftDepth = depth(root->left, key, level + 1);
+    if (leftDepth != -1) return leftDepth;
+    return depth(root->right, key, level + 1);
+}
+
+int main() {
+    Node* root = newNode(10);
+    root->left = newNode(5);
+    root->right = newNode(20);
+    root->left->left = newNode(3);
+    root->left->right = newNode(8);
+    root->right->left = newNode(15);
+    root->right->right = newNode(25);
+    
+    int key = 15;
+    int result = depth(root, key, 0);
+    if (result != -1) {
+        printf("Depth of node with value %d: %d\n", key, result);
+    } else {
+        printf("Node with value %d not found in the tree.\n", key);
+    }
+    
+    return 0;
+}
