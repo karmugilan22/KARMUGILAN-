@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node in the binary search tree
+struct Node* insertNode(struct Node* root, int data) {
+    if (root == NULL) {
+        return createNode(data);
+    }
+    if (data < root->data) {
+        root->left = insertNode(root->left, data);
+    } else if (data > root->data) {
+        root->right = insertNode(root->right, data);
+    }
+    return root;
+}
+
+// Function to search for a specific node
+struct Node* searchNode(struct Node* root, int key) {
+    if (root == NULL || root->data == key) {
+        return root;
+    }
+    if (key < root->data) {
+        return searchNode(root->left, key);
+    }
+    return searchNode(root->right, key);
+}
+
+int main() {
+    struct Node* root = NULL;
+    root = insertNode(root, 10);
+    insertNode(root, 5);
+    insertNode(root, 20);
+    insertNode(root, 3);
+    insertNode(root, 7);
+    
+    int key = 7;
+    struct Node* result = searchNode(root, key);
+    if (result != NULL) {
+        printf("Node with value %d found in the tree.\n", key);
+    } else {
+        printf("Node with value %d not found in the tree.\n", key);
+    }
+    return 0;
+}
