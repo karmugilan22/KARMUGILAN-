@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+// Definition of a binary tree node  
+
+typedef struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+} Node;
+
+// Function to create a new node
+Node* newNode(int data) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
+}
+
+// Function to find the minimum value in a binary tree
+int findMin(Node* root) {
+    if (root == NULL) return INT_MAX;
+    int min = root->data;
+    int leftMin = findMin(root->left);
+    int rightMin = findMin(root->right);
+    if (leftMin < min) min = leftMin;
+    if (rightMin < min) min = rightMin;
+    return min;
+}
+
+// Function to find the maximum value in a binary tree
+int findMax(Node* root) {
+    if (root == NULL) return INT_MIN;
+    int max = root->data;
+    int leftMax = findMax(root->left);
+    int rightMax = findMax(root->right);
+    if (leftMax > max) max = leftMax;
+    if (rightMax > max) max = rightMax;
+    return max;
+}
+
+int main() {
+    Node* root = newNode(10);
+    root->left = newNode(5);
+    root->right = newNode(20);
+    root->left->left = newNode(3);
+    root->left->right = newNode(8);
+    root->right->left = newNode(15);
+    root->right->right = newNode(25);
+    
+    printf("Minimum value: %d\n", findMin(root));
+    printf("Maximum value: %d\n", findMax(root));
+    
+    return 0;
+}
