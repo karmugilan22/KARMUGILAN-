@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a tree node
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Function to insert a node into the binary tree
+struct Node* insertNode(struct Node* root, int data) {
+    // If the tree is empty, return a new node
+    if (root == NULL) {
+        return createNode(data);
+    }
+
+    // Otherwise, recur down the tree
+    if (data < root->data) {
+        root->left = insertNode(root->left, data);
+    } else if (data > root->data) {
+        root->right = insertNode(root->right, data);
+    }
+
+    // Return the (unchanged) root pointer
+    return root;
+}
+
+// Function to print the tree (inorder traversal)
+void inorderTraversal(struct Node* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+int main() {
+    struct Node* root = NULL;
+    root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 70);
+    insertNode(root, 60);
+    insertNode(root, 80);
+
+    printf("Inorder traversal of the binary tree: ");
+    inorderTraversal(root);
+
+    return 0;
+}
